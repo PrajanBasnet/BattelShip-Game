@@ -1,0 +1,21 @@
+.container {
+  border: 1px solid red;
+  width: 800px;
+  height: 500px;
+  display: flex;
+  flex-wrap: wrap;  
+  align-content: flex-start;   
+}
+
+.all {
+  flex: 0 0 80px;     
+  height: 50px;        
+  background-color: rgb(189, 189, 228);
+  box-sizing: border-box;
+  border: 1px solid white;
+}
+
+.all:hover{
+  background-color: rgb(92, 92, 109);
+
+}
