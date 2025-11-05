@@ -18,6 +18,7 @@ class Ship {
         }
     }
 }
+
 let start = document.querySelector("#start");
 class gameBoard {
     constructor() {
@@ -53,17 +54,17 @@ class gameBoard {
         attack[position].hit(position)
     }
 
-    renderDom(){
+    renderDom() {
         for (let i = 0; i < this.boards.length; i++) {
             const value = this.boards[i];
 
             // console.log(this.boards)
-            if(value == null){
+            if (value == null) {
                 document.getElementById(i).style.backgroundColor = "black";
-            }else if(value == "x"){
-                console.log(this.boards[41].hits,this.boards[41].coords)
+            } else if (value == "x") {
+                // console.log(this.boards[41].hit, this.boards[41].coords)
                 document.getElementById(i).style.backgroundColor = "green";
-            }else if (this.boards[i].hits.includes(i)){
+            } else if (this.boards[i].hits.includes(i)) {
                 document.getElementById(i).style.backgroundColor = "red";
 
             }
@@ -79,69 +80,9 @@ class Players {
         this.name = name;
         this.gameBoard = new gameBoard();
     }
-
 }
 
 let playerOne = new Players("prajwal");
-
-
-
-
-let container = document.querySelector(".container");
-function divDom() {
-    for (let i = 0; i < 100; i++) {
-        let newDiv = document.createElement("div");
-        newDiv.setAttribute("class", "all");
-        newDiv.id = i;
-        dragFunction(newDiv,i);
-
-        container.appendChild(newDiv);
-        
-    }
-}
-divDom();
-
-
-// Ship one 
-let shipOne = document.querySelector("#ship1");
-let shipTwo = document.querySelector("#ship2");
-
-
-let target = document.querySelector("#target");
-let all = document.querySelectorAll(".all");
-
-function dragFunction(element,id) {
-    element.addEventListener("dragover", (e) => {
-        e.preventDefault();
-        
-    })
-    
-    element.addEventListener("drop", (e) => {
-        e.preventDefault();
-        console.log(id)
-        document.getElementById(id+1).style.backgroundColor = "red";
-        document.getElementById(id+2).style.backgroundColor = "red";
-        document.getElementById(id).style.backgroundColor = "red";
-        shipOne.id = id;
-        
-        element.appendChild(shipOne);
-        
-    })
-    element.addEventListener("dragstart", (event) => { 
-        document.getElementById(id+1).style.backgroundColor = "rgb(189, 189, 228)";
-        document.getElementById(id+2).style.backgroundColor = "rgb(189, 189, 228)";
-        document.getElementById(id).style.backgroundColor = "rgb(189, 189, 228)";
-        
-    })
-}
-
-start.addEventListener("click",(e)=>{
-    e.preventDefault()
-    console.log("Game started")
-    let id = parseInt(shipOne.id)
-    console.log(id+1)
-    playerOne.gameBoard.newShip(3,[id,id+1,id+2])
-})
 
 
 window.Ship = Ship;
