@@ -1,5 +1,30 @@
-.container {
-  border: 1px solid red;
+@font-face {
+  font-family: 'MyFont';
+  src: url('./fonts/SuperPixel-m2L8j.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  font-family: 'MyFont', sans-serif;
+}
+
+#loadingScreen {
+  padding: 0%;
+  margin: 0%;
+  background-image: url("./assets/homescreen.jpg");
+  background-size:cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;   
+  height: 100vh;  
+}
+
+
+.container , .comp {
+  border: 1px solid #9db1d1;
   width: 800px;
   height: 500px;
   display: flex;
@@ -7,7 +32,7 @@
   align-content: flex-start;   
 }
 
-.all {
+.all , .compAll{
   flex: 0 0 80px;     
   height: 50px;        
   background-color: rgb(189, 189, 228);
@@ -18,4 +43,84 @@
 .all:hover{
   background-color: rgb(92, 92, 109);
 
+}
+.mainContainer{
+  display: flex;
+  margin: auto;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: center;
+}
+.gamebtns{
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#start , #coordsButton ,#reset{
+  padding: 15px;
+  width: 150px;
+  border:none;
+}
+
+#reset{
+  visibility: hidden;
+}
+
+.compAll{
+  background-color: rgb(247, 0, 0);
+
+}
+
+/* #game{
+  visibility: hidden;
+} */
+
+#battelshipStart{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.intro{
+  padding: 3%;
+  font-size: 80px;
+}
+span{
+  color:red;
+}
+.cool-button {
+  background: linear-gradient(135deg, #ee0101, #7873f5);
+  border: none;
+  border-radius: 12px;
+  padding: 15px 40px;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 8px 15px rgba(0,0,0,0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.cool-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 20px rgba(0,0,0,0.4);
+}
+
+.cool-button::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.5s;
+  transform: skewX(-20deg);
+}
+
+.cool-button:hover::after {
+  left: 200%;
 }
