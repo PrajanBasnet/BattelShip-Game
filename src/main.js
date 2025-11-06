@@ -1,91 +1,134 @@
-class Ship {
-    constructor(myLength, coords) {
-        this.myLength = myLength;
+
+class Ship{
+    constructor(coords,myLength){
         this.coords = coords;
+        this.myLength = myLength;
         this.hits = [];
     }
 
-    hit(position) {
-        if (!this.hits.includes(position)) {
-            this.hits.push(position);
-            console.log("Hits: ", this.hits);
-            this.isSunk()
-        }
+    hit(position){
+
     }
-    isSunk() {
-        if (this.hits.length === this.myLength) {
-            console.log("The ship Sunk", this.hits)
-        }
+
+    isSunk(){
+
     }
 }
 
-let start = document.querySelector("#start");
-class gameBoard {
-    constructor() {
+class GameBoard{
+    constructor(){
         this.boards = new Array(100).fill(null);
-        this.ships = [];
-        this.missAttack = [];
     }
-
-    newShip(size, coords) {
-        let myShip = new Ship(size, coords);
-        for (let pos of coords) {
-            if (this.boards[pos] !== null) {
-                throw new Error("This coords already exists");
+    newShip(myLength, coords) {
+        let myShip = new Ship(myLength, coords);
+        for (let coord of coords) {
+            if (this.boards[coord] !== null) {
+                console.error("Conflict of interest at", coord);
+                return false; 
             }
         }
-
-        coords.forEach(pos => this.boards[pos] = myShip);
-        this.ships.push(myShip);
+        coords.forEach(coord => {
+            this.boards[coord] = myShip;
+        });
+        return true; 
     }
-
-    receiveAttack(position) {
-        let attack = this.boards;
-        console.log("position: ", attack[position]);
-
-        if (attack[position] == null) {
-            this.missAttack.push(position);
-            attack[position] = 'x';
-            return "Missed";
-        } else if (attack[position] == "x") {
-            return null;
-        }
-
-        attack[position].hit(position)
+    
+    receiveAttack(coords){
+        
     }
-
-    renderDom() {
-        for (let i = 0; i < this.boards.length; i++) {
-            const value = this.boards[i];
-
-            // console.log(this.boards)
-            if (value == null) {
-                document.getElementById(i).style.backgroundColor = "black";
-            } else if (value == "x") {
-                // console.log(this.boards[41].hit, this.boards[41].coords)
-                document.getElementById(i).style.backgroundColor = "green";
-            } else if (this.boards[i].hits.includes(i)) {
-                document.getElementById(i).style.backgroundColor = "red";
+    renderDom(pid){
+        for (let x = 0; x < 100; x++) {
+            let gaemboardSelect = document.getElementById(pid + x);
+            if(this.boards[x] !== null){
+                gaemboardSelect.style.backgroundColor = "green";
+            }else{
+                gaemboardSelect.style.backgroundColor = "gray";
 
             }
-
         }
-        console.log(this.boards[10])
+        return this.boards;
     }
-
 }
 
-class Players {
-    constructor(name) {
+class Player{
+    constructor(name){
         this.name = name;
-        this.gameBoard = new gameBoard();
+        this.gameBoard = new GameBoard();
+
+    }
+    gameBoard(){
+        let gameBoard = this.gameBoard;
+        return gameBoard;
+
+    }
+    clearData(){
+        this.gameBoard = new GameBoard();
     }
 }
 
-let playerOne = new Players("prajwal");
+function randomCoords(player,pid){
+    player.clearData();
+    function myShip(size){ 
+     
+while(true){
+
+    let coords = Math.random() < 0.5 ? "horizontal":"vertical";
+    let newCoords  = [];
+    let start = [];
+    
+    if(coords == "horizontal"){
+        let col = Math.floor(Math.random() * 10);
+        let row = Math.floor(Math.random() *  (10 - size));
+        
+        start = col * 10 + row;
+        
+            for (let i = 0; i < size; i++) {
+                newCoords.push(start + i );
+            }
+            
+            
+            
+        } else if(coords == "vertical"){
+            let col = Math.floor(Math.random() * (10-size));
+            let row = Math.floor(Math.random() *  10);
+            
+            start = col * 10 + row;
+            for (let i = 0; i < size; i++) {
+                newCoords.push(start +  i * 10 );
+            }
+            console.log(newCoords)
+        }
+        if(player.gameBoard.newShip(size,newCoords)) break;
+
+    }
+}
+        myShip(2);
+        myShip(3);
+        myShip(4);
+        player.gameBoard.renderDom(pid);
+
+}
+let playerOne = new Player("prajwal");
+let computer  = new Player("Computer");
+
+let coordsButton = document.querySelector("#coordsButton");
+let start = document.querySelector("#start");
 
 
-window.Ship = Ship;
-window.gameBoard = gameBoard;
-window.Players = Players;
+coordsButton.addEventListener("click",(e)=>{
+    randomCoords(playerOne,'p')
+    // playerOne.gameBoard.renderDom(0,100);
+
+})
+
+start.addEventListener("click",(e)=>{
+    randomCoords(computer,'c')
+    computer.gameBoard.renderDom('c');
+
+})
+
+
+
+
 window.playerOne = playerOne;
+window.computer = computer;

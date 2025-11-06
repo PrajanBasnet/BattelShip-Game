@@ -6,20 +6,41 @@
     <title>BattelShip Game</title>
 </head>
 <body>
+
+<div id="loadingScreen">
+    <div id="battelshipStart">
+        <div class="intro">
+            BattelShip <span>Game</span>
+        </div>
+        <button id="GameStart" class="cool-button">Start Battel</button>
+    </div>
+</div>
+
+<div id="game">
+
+    <div class="mainContainer">
         
-        <section id="target"  class="container">
-
-        </section>
-
+        <section id="computer"  class="comp" >
+            
+            </section>
+            <section id="target"  class="container">
+                
+            </section>
+            
+        </div>
+        
+        <div class="gamebtns">
+            
+            <input type="button" value="Start" id="start">
+            <input type="button" value="New Coords" id="coordsButton">
+            <input type="button" value="Reset" id="reset"  >
+            
+            
+        </div>
         <div class="ships">
-            <div id="ship1" draggable="true">
-                <div>Ship One</div>
-            </div>
-            <div id="ship2"  draggable="true">ShipTwo</div>
+            <div id="shipTwo" draggable="true">Ship Two </div>
         </div>
-   
-        <div id="start">
-            <input type="button" value="Start">
-        </div>
+        
+    </div>
 </body>
 </html>
