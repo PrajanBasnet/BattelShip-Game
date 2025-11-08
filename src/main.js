@@ -1,4 +1,4 @@
-
+let count = 0; 
 class Ship{
     constructor(coords,myLength){
         this.coords = coords;
@@ -7,11 +7,23 @@ class Ship{
     }
 
     hit(position){
-
+        if(this.hits.includes(position)){
+            console.log("Try again");
+            return;
+        }
+        this.hits.push(position);
+        this.isSunk();
     }
-
+    
     isSunk(){
-
+        if(this.myLength.length === this.hits.length){
+            console.log("The ship has been sunk!!");
+            count += 1;
+        }
+        console.log("Sunk:", count);
+        if(count == 3 ){
+            alert("Congratulations you won");
+        }
     }
 }
 
@@ -33,8 +45,18 @@ class GameBoard{
         return true; 
     }
     
-    receiveAttack(coords){
-        
+    receiveAttack(id,coords){
+        let newCoords = coords.replace(id,"");
+        let x = parseInt(newCoords);
+
+        console.log(typeof(x),x)
+        if(this.boards[x] === null){
+            console.log("Missed:",this.boards);
+        }else{
+            console.log("Hit:",this.boards[x]);
+            
+            this.boards[x].hit(x)
+        }
     }
     renderDom(pid){
         for (let x = 0; x < 100; x++) {
@@ -43,7 +65,6 @@ class GameBoard{
                 gaemboardSelect.style.backgroundColor = "green";
             }else{
                 gaemboardSelect.style.backgroundColor = "gray";
-
             }
         }
         return this.boards;
@@ -81,7 +102,6 @@ while(true){
         let row = Math.floor(Math.random() *  (10 - size));
         
         start = col * 10 + row;
-        
             for (let i = 0; i < size; i++) {
                 newCoords.push(start + i );
             }
@@ -124,9 +144,21 @@ coordsButton.addEventListener("click",(e)=>{
 start.addEventListener("click",(e)=>{
     randomCoords(computer,'c')
     computer.gameBoard.renderDom('c');
-
+    
 })
 
+let loadingScreen = document.querySelector("#loadingScreen")
+let compX = document.querySelector(".comp");
+
+document.addEventListener("click",(e)=>{
+    e.preventDefault();
+    if(e.target.classList.contains("compAll")){
+        computer.gameBoard.receiveAttack("c",e.target.id);
+    }
+    if(e.target.classList.contains("all")){
+        playerOne.gameBoard.receiveAttack("p",e.target.id);
+    }
+})
 
 
 
