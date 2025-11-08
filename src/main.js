@@ -77,10 +77,13 @@ class GameBoard {
     renderDom(pid) {
         for (let x = 0; x < 100; x++) {
             let gaemboardSelect = document.getElementById(pid + x);
-            if (this.boards[x] !== null) {
-                gaemboardSelect.style.backgroundColor = "green";
-            } else {
-                gaemboardSelect.style.backgroundColor = "gray";
+            if(pid != "c"){
+
+                if (this.boards[x] !== null) {
+                    gaemboardSelect.style.backgroundColor = "green";
+                } else {
+                    gaemboardSelect.style.backgroundColor = "gray";
+                }
             }
         }
         return this.boards;
@@ -152,29 +155,29 @@ let start = document.querySelector("#start");
 
 coordsButton.addEventListener("click", (e) => {
     randomCoords(playerOne, 'p')
-    // playerOne.gameBoard.renderDom(0,100);
-
+    
 })
 
+let play = false;
 start.addEventListener("click", (e) => {
+    play = true;
     randomCoords(computer, 'c')
     computer.gameBoard.renderDom('c');
 
 })
+    document.addEventListener("click", (e) => {
+        e.preventDefault();
+        if(play){
 
-let loadingScreen = document.querySelector("#loadingScreen")
-let compX = document.querySelector(".comp");
-
-document.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (e.target.classList.contains("compAll")) {
-        computer.gameBoard.receiveAttack("c", e.target.id);
-    }
-    if (e.target.classList.contains("all")) {
-        playerOne.gameBoard.receiveAttack("p", e.target.id);
-    }
-})
-
+            if (e.target.classList.contains("compAll")) {
+                computer.gameBoard.receiveAttack("c", e.target.id);
+            }
+            if (e.target.classList.contains("all")) {
+                playerOne.gameBoard.receiveAttack("p", e.target.id);
+            }
+        }
+    })
+    
 
 
 window.playerOne = playerOne;
