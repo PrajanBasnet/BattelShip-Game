@@ -1,10 +1,12 @@
-import { Attack } from "./dom/dom.js";
+import { autoAttack } from "./autoAttack.js";
+import { Attack ,Ui} from "./dom/dom.js";
 
 class Ship {
-    constructor(coords, myLength) {
+    constructor(coords, myLength ,pid) {
         this.coords = coords;
         this.myLength = myLength;
         this.hits = [];
+        this.pid = pid;
     }
 
     hit(position) {
@@ -13,12 +15,20 @@ class Ship {
             return;
         }
         this.hits.push(position);
+        console.log("PIDS::", this.pid , this.myLength)
         this.isSunk();
     }
 
     isSunk() {
         if (this.myLength.length === this.hits.length) {
             console.log("The ship has been sunk!!");
+            this.hits.forEach(element => {
+                let elm = this.pid + element;
+                let test = document.getElementById(elm);
+                test.style.backgroundColor = "green";
+                
+            });
+
         }
     
     }
@@ -30,8 +40,8 @@ class GameBoard {
         this.count = 0;
         this.missedAttack = [];
     }
-    newShip(myLength, coords) {
-        let myShip = new Ship(myLength, coords);
+    newShip(myLength, coords,pid) {
+        let myShip = new Ship(myLength, coords ,pid);
         for (let coord of coords) {
             if (this.boards[coord] !== null) {
                 console.error("Conflict of interest at", coord);
@@ -47,16 +57,16 @@ class GameBoard {
     receiveAttack(id, coords) {
         let newCoords = coords.replace(id, "");
         let x = parseInt(newCoords);
-
+        console.log("iddddd---",id);
 
         for (let element of this.missedAttack) {
             if(element == x){
                 console.error("Coords already been hit");
-                return ;
+                return;
             }
-            console.log("MissedAttacksList:" ,element)
 
         }
+
         if (this.boards[x] === null) {
             console.log(coords)
             Attack(coords,"missed");
@@ -65,7 +75,19 @@ class GameBoard {
         }else {
             this.count += 1;
             if (this.count == 9) {
-                alert("You won the game all ship sank");
+                if(id == "p"){
+                    alert("Computer won")
+                    play = false;
+                    Ui()
+                  Ui()
+                }else{
+                    alert("YOU WON Congratulations!!!");
+                    play = false;
+
+                    Ui()
+                        
+
+                }
             }
             console.log("Hit:", this.boards[x]);
             Attack(coords,"hit");
@@ -74,15 +96,28 @@ class GameBoard {
             this.boards[x].hit(x)
         }
     }
+
+    checkForTurn(e){
+        let newCoords = e.replace("c", "");
+        let x = parseInt(newCoords);
+        console.log("This is E: ",e, this.missedAttack.includes(x));
+        
+        if(this.missedAttack.includes(x)){
+            return false;
+        }
+        return true;
+    
+    }
+    
     renderDom(pid) {
         for (let x = 0; x < 100; x++) {
             let gaemboardSelect = document.getElementById(pid + x);
+   
             if(pid != "c"){
-
                 if (this.boards[x] !== null) {
-                    gaemboardSelect.style.backgroundColor = "green";
+                    gaemboardSelect.style.backgroundColor = "#2bff00";
                 } else {
-                    gaemboardSelect.style.backgroundColor = "gray";
+                    gaemboardSelect.style.backgroundColor = "#101820";
                 }
             }
         }
@@ -136,12 +171,12 @@ function randomCoords(player, pid) {
                     newCoords.push(start + i * 10);
                 }
             }
-            if (player.gameBoard.newShip(size, newCoords)) break;
+            if (player.gameBoard.newShip(size, newCoords,pid)) break;
 
         }
     }
-    myShip(2);
-    myShip(3);
+    myShip(2 );
+    myShip(3 );
     myShip(4);
     player.gameBoard.renderDom(pid);
 
@@ -159,26 +194,32 @@ coordsButton.addEventListener("click", (e) => {
 })
 
 let play = false;
+let turn = false;
+let turnId = document.querySelector(".turnId");
 start.addEventListener("click", (e) => {
     play = true;
     randomCoords(computer, 'c')
     computer.gameBoard.renderDom('c');
 
 })
-    document.addEventListener("click", (e) => {
-        e.preventDefault();
-        if(play){
+document.addEventListener("click", (e) => {
+    e.preventDefault();
+    if(play == true){
 
-            if (e.target.classList.contains("compAll")) {
+        
+        if (e.target.classList.contains("compAll")) {
+            computer.gameBoard.checkForTurn(e.target.id)
+            if( computer.gameBoard.checkForTurn(e.target.id) == true){
+                playerOne.gameBoard.receiveAttack("p", autoAttack());
+                
                 computer.gameBoard.receiveAttack("c", e.target.id);
             }
-            if (e.target.classList.contains("all")) {
-                playerOne.gameBoard.receiveAttack("p", e.target.id);
-            }
         }
+    }
     })
     
 
 
 window.playerOne = playerOne;
 window.computer = computer;
+window.autoAttack = autoAttack;

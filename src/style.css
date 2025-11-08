@@ -21,10 +21,10 @@ html, body {
   width: 100vw;   
   height: 100vh;  
 }
-.comp{
+/* .computerContainer{
   display: none;
 
-}
+} */
 
 .container , .comp {
   border: 1px solid #9db1d1;
@@ -38,7 +38,9 @@ html, body {
 .all , .compAll{
   flex: 0 0 80px;     
   height: 50px;        
-  background-color: rgb(189, 189, 228);
+  background-color: #101820;
+  
+
   box-sizing: border-box;
   border: 1px solid white;
 }
@@ -63,15 +65,35 @@ html, body {
 #start , #coordsButton ,#reset{
   padding: 15px;
   width: 150px;
-  border:none;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+.resetstyle{
 
+}
 #reset{
-  visibility: hidden;
+  display: none;
+  margin: 20px;
+  font-size: 20px;
+  padding: 12px;
+  margin-right: 190px;
+}
+#reset:hover {
+  background: linear-gradient(135deg, #2a5298, #1e3c72);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.3);
 }
 
 .compAll{
-  background-color: rgb(247, 0, 0);
+  background-color: #101820;
 
 }
 
@@ -126,4 +148,13 @@ span{
 
 .cool-button:hover::after {
   left: 200%;
+}
+
+nav{
+  display: flex;
+  justify-content: center;
+  background-color: #101820;
+  color: white;
+  padding: 20px;
+  font-size: 50px;
 }
