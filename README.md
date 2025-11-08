@@ -4,7 +4,9 @@ A simple javascript game that let's you attack your opponent
 Features
 
 1.Fully interactive 10x10 grid for player and computer.
+
 2.Randomized ship placement for each game.
+
 3.Computer AI automatically attacks player’s ships.
 
 📦 Technologies Used
