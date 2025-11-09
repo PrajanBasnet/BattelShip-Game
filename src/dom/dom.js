@@ -56,6 +56,7 @@ divDom(computer,"compAll" ,'c');
 gameStart.addEventListener("click",(e)=>{
     console.log("working")
     loadingScreen.style.display = "none";
+    game.style.display = "block";
     game.style.visibility = "visible";
 })
 
